@@ -1,0 +1,57 @@
+Solution 1: Using two Loops
+
+Node *removeDuplicates(Node *head)
+{
+    if(head == NULL || head->next == NULL){
+        return head;
+    }
+
+    Node* p1 = head;
+    Node* p2 = NULL;
+
+    while(p1!=NULL && p1->next != NULL){
+        p2 = p1;
+        
+        while(p2->next!=NULL){
+            if(p1->data == p2->next->data){
+                Node* temp = p2->next;
+                p2->next = p2->next->next;
+                temp->next = NULL;
+                delete temp;
+            }
+            else{
+                p2 = p2->next;
+            }
+        }
+        p1 = p1->next;
+    }
+    return head;
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Solution2 - Using Set Data Structure
+
+Node *removeDuplicates(Node *head)
+{
+    if(head == NULL || head->next == NULL){
+        return head;
+    }
+
+    unordered_set<int> visited;
+
+    Node* curr = head;
+    Node* prev = NULL;
+
+    while(curr!=NULL){
+        if(visited.find(curr->data) != visited.end())
+        {
+            prev->next = prev->next->next;
+            delete curr;
+        }
+        else{
+            visited.insert(curr->data);
+            prev = curr;
+        }
+        curr = prev->next;
+    }
+    return head;
+}
