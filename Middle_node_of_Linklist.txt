@@ -1,0 +1,23 @@
+ int count(ListNode* head)
+    {
+        int len = 0;
+        while(head!=NULL)
+        {
+            len++;
+            head = head -> next;
+        }
+        return len;
+    }
+    ListNode* middleNode(ListNode* head) {
+        ListNode* temp = head;
+        int len = count(head);
+        int ans = len/2;
+        int cnt = 0 ;
+        
+        while(cnt<ans)
+        {
+            temp = temp->next;
+            cnt++;
+        }
+        return temp;
+    }

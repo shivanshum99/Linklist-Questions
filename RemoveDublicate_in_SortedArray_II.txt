@@ -1,0 +1,30 @@
+ ListNode* deleteDuplicates(ListNode* head) {
+        ListNode* curr = head;
+        ListNode* dummy = new ListNode(0, head);
+        ListNode* prev = dummy;
+        while(curr != NULL)
+        {
+            if(curr->next!=NULL && curr->val==curr->next->val)
+            {
+               while(curr->next!=NULL && curr->val == curr->next->val)
+               {
+                   curr = curr->next;
+               }
+                prev->next = curr->next;
+            }
+            else
+            {
+                prev = prev->next;
+            }
+            curr = curr->next;
+        }
+        head = dummy->next;
+        return head;
+    }
+
+Your input
+[1,2,3,3,4,4,5]
+Output
+[1,2,5]
+Expected
+[1,2,5]

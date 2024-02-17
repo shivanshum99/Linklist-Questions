@@ -1,0 +1,139 @@
+#include <bits/stdc++.h>
+using namespace std;
+class node{
+    public:
+        int data;
+        node* next;
+        
+    node(int data)
+    {
+        this->data = data;
+        this->next = NULL;
+    }
+    ~node()
+    {
+        int value = this->data;
+        //memory free
+        if(this->next!=NULL)
+        {
+            delete next;
+            this->next = NULL;
+        }
+        cout<<"memory is free for node with data: "<< value<<endl;
+    }
+};
+class sll{
+    node* head;
+    public:
+    void create()
+    {
+        int n,x;
+        node*p;
+        cout<<"no. of nodes"<<endl;
+        cin>> n;
+        cout<<"data of first node"<<endl;
+        cin>> x;
+        head = new node(x);
+        p = head;
+        for(int i = 1;i < n;i++)
+        {
+            cout<<"data of next node"<<endl;
+            cin>>x;
+            p->next = new node(x);
+            p = p->next;
+        }
+    }
+    void InsertAtHead(int data)
+    {
+        node*temp=new node(data);
+        temp->next = head;
+        head = temp;
+        
+    }
+    void InsertAtTail(int data)
+    {
+        node* temp = NULL;
+        if(head == NULL)
+        {
+            temp = new node(data);
+            head = temp;
+        }
+        else{
+            node*p = head;
+            temp = new node(data);
+            while(p->next!=NULL)
+            {
+                p=p->next;
+            }
+            p->next = temp;
+        }
+    }
+    void InsertAtPosition(int data, int position)
+    {
+        if(position == 1)
+        {
+            InsertAtHead(data);
+            return;
+        }
+        node*temp = head;
+        int cnt = 1;
+        while(cnt<position-1)
+        {
+            temp = temp->next;
+            cnt++;
+        }
+        node* p = new node(data);
+        
+        p->next = temp->next;
+        temp->next = p;
+    }
+    void deleteByPosition(int position)
+    {
+        //deleting first node
+        if(position == 1)
+        {
+            node *temp = head;
+            head = head->next;
+            temp->next = NULL;
+            delete temp;
+        }
+        //deleting other node
+        else{
+            node* curr = head;
+            node* prev = NULL;
+            int cnt = 1;
+            while(cnt<position)
+            {
+                prev = curr;
+                curr = curr->next;
+                cnt++;
+            }
+            prev->next = curr->next;
+            curr->next = NULL;
+            delete curr;
+        }
+    }
+    void print()
+    {
+        node*p = head;
+        while(p!=NULL)
+        {
+            cout<<p->data<<endl;
+            p=p->next;
+        }
+        cout<<endl;
+    }
+};
+int main() {
+    sll s;
+    s.create();
+    s.print();
+    s.deleteByPosition(4);
+    s.print();
+    //s.InsertAtHead(10);
+    //s.print();
+    //s.InsertAtPosition(22, 1);
+    //s.print();
+    //s.InsertAtPosition(33,6);
+    //s.print();
+}

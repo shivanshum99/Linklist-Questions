@@ -1,0 +1,62 @@
+1st approach Sort 0 1 2 - count 0 1 2 and then change the data of node as per counts of 0 1 2
+2nd Approch Sort 0 1 2 without changing the data of node
+
+void insertNode(ListNode* &Tail, ListNode* curr)
+{
+    tail->next = curr;
+    tail = curr;
+}
+
+//create separate list of 0s, 1s, 2s
+ListNode* sortList(ListNode* head)
+{
+    ListNode* curr = head;
+    ListNode* zeroHead = new ListNode(-1);
+    ListNode* zeroTail = zeroHead;
+    ListNode* oneHead = new ListNode(-1);
+    ListNode* oneTail = oneHead;
+    ListNode* twoHead = new ListNode(-1);
+    ListNode* twoTail = twoHead;
+    
+    while(curr!=NULL)
+    {
+        if(curr->data == 0)
+        {
+            insertNode(zeroTail, curr);
+        }
+        else if(curr->data == 1)
+        {
+            insertNode(oneTail, curr);
+        }
+        else if(curr->data == 2)
+        {
+            insertNode(twoTail, curr);
+        }
+        curr = curr->next;
+    }
+    
+    //merge sublist
+    
+    //1s list is not empty
+    if(oneHead->next!=NULL)
+    {
+        zeroTail->next = oneHead->next;
+    }
+    //1s list is empty
+    else
+    {
+        zeroTail->next = twoHead->next;
+    }
+    oneTail->next = twoHead->next;
+    twoTail->next = NULL;
+    
+    //setup head;
+    head = zeroHead->next;
+    
+    //delete dummyNodes
+    delete(zeroHead);
+    delete(oneHead);
+    delete(twoHead);
+    
+    return head;
+}

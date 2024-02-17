@@ -1,0 +1,62 @@
+ListNode* removeElements(ListNode* head, int val) {
+        while(head!=NULL && head->val == val)
+        {
+            ListNode* temp = head;
+            head = head->next;
+            delete temp;
+        }
+        
+        ListNode*curr = head;
+        ListNode*prev = NULL;
+        while(curr!=NULL)
+        {
+            if(curr->val!=val)
+            {
+                prev = curr;
+                curr = curr->next;
+            }
+            else
+            {
+                ListNode* temp = curr;
+                curr = curr->next;
+                prev->next = curr;
+                delete temp;
+            }
+        }
+        return head;
+    }
+
+
+II Solution:
+
+ ListNode* removeElements(ListNode* head, int val) {
+        
+        if(head == NULL)
+        {
+            return NULL;
+        }
+        ListNode* res = head;
+        while(res!=NULL && res->val == val)
+        {
+            res = res->next;
+        }
+        
+        if(res == NULL)
+        {
+            return NULL;
+        }
+        
+        ListNode* run = res;
+        while(run->next!=NULL)
+        {
+            if(run->next->val==val)
+            {
+                run->next = run->next->next;
+            }
+            else
+            {
+                run = run->next;
+            }
+        }
+        return res;
+    }

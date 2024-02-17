@@ -1,0 +1,5 @@
+//In this code we don't have access to head of the linklist.
+void deleteNode(ListNode* node) {
+        node->val = node->next->val;
+        node->next = node->next->next;
+    }
