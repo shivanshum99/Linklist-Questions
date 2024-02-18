@@ -1,0 +1,88 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* getMid(ListNode* head){
+        ListNode* slow = head;
+        ListNode* fast = head->next;
+
+        while(fast!=NULL){
+            fast = fast->next;
+            if(fast!=NULL){
+                fast = fast->next;
+                slow = slow->next;
+            }
+        }
+        return slow;
+    }
+    
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        
+        if(list1 == NULL)
+        {
+            return list2;
+        }
+        if(list2 == NULL)
+        {
+            return list1;
+        }
+
+        ListNode* mlist = new ListNode(-1);
+        ListNode* temp = mlist;
+
+        while(list1!=NULL && list2!=NULL){
+            if(list1->val <= list2->val){
+                mlist->next = list1;
+                list1 = list1->next;
+                mlist = mlist->next;
+            }
+            else{
+                mlist->next = list2;
+                list2 = list2->next;
+                mlist = mlist->next;
+            }
+        }
+        
+        while(list1!=NULL){
+            mlist->next = list1;
+            list1 = list1->next;
+            mlist = mlist->next;
+        }
+
+        while(list2!=NULL){
+            mlist->next = list2;
+            list2 = list2->next;
+            mlist = mlist->next;
+        }
+
+        return temp->next;
+    }
+    ListNode* sortList(ListNode* head) {
+        if(head == NULL || head->next == NULL){
+            return head;
+        }
+
+        //find mid of the linkList
+        ListNode* mid = getMid(head);
+        ListNode* left = head;
+        ListNode* right = mid->next;
+        mid->next = NULL;
+
+        //Recursive sort
+        left = sortList(left);
+        right = sortList(right);
+
+        //merge both list
+        ListNode* mlist = mergeTwoLists(left, right);
+
+        return mlist;
+    }
+};
